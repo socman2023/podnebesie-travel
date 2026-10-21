@@ -1,0 +1,34 @@
+/* Supplemental VK webview layout for version 0.3.5 */
+html,body,#app{max-width:100%;min-width:0}
+body{overflow-x:hidden}
+.game-header{padding-top:max(10px,env(safe-area-inset-top,0px))}
+.event-overlay{padding-bottom:max(12px,env(safe-area-inset-bottom,0px))}
+.event-modal{max-height:calc(100dvh - 24px)}
+@media(max-width:1000px){
+.game-layout{grid-template-columns:minmax(0,1fr) minmax(290px,36%)}
+.sidebar{max-height:calc(100dvh - 66px)}
+}
+@media(max-width:740px){
+.game-root{min-height:100dvh}
+.game-header{flex-wrap:wrap;gap:7px;padding-inline:12px}
+.game-title{font-size:16px}
+.header-status{gap:5px;font-size:11px}
+.game-layout{display:flex;flex-direction:column}
+.map-viewport{height:clamp(250px,42dvh,430px);min-height:250px;flex:none}
+.sidebar{overflow:visible;max-height:none;border-left:0;width:100%}
+.map-topbar{top:7px;left:7px;right:7px}
+.map-topbar .map-instr{max-width:70%;font-size:11px;padding:7px}
+.panel{padding:12px}
+.start-shell{padding:12px 12px max(24px,env(safe-area-inset-bottom,0px))}
+.start-shell .hero-banner{padding:16px}
+.start-shell .setup{padding:14px}
+.hero-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.event-modal{width:100%;max-height:calc(100dvh - 24px);padding:15px}
+.event-modal img{width:min(34vw,130px)}
+.route-end-list{max-height:220px}
+.route-variants{max-height:160px}
+}
+@media(max-width:380px){
+.map-viewport{height:35dvh;min-height:225px}
+.event-modal img{width:100px}
+}
