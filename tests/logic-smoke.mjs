@@ -1,0 +1,25 @@
+import { strict as assert } from 'node:assert';
+import { OFFLINE_GAME_DATA, OFFLINE_MAP_DATA } from '../src/data/index.js';
+import { buildCatalog } from '../src/core/catalog.js';
+import { createGame, possibleActions, command } from '../src/core/engine.js';
+import { assignBotStyles, BOT_STYLES } from '../src/gameplay/bot-assignment.js';
+import { publicObservation, selectBotAction, botRandom } from '../src/gameplay/bots.js';
+import { rankedRoutes, pageForRoute } from '../src/app/route-list.js';
+const cat=buildCatalog(OFFLINE_GAME_DATA,OFFLINE_MAP_DATA);
+const heroIds=Object.keys(cat.heroes).slice(0,4);
+assert.equal(heroIds.length,4);
+let state=createGame(cat,{heroIds,days:15,seed:123456});
+assert.equal(state.day,1);
+assert.equal(Object.keys(state.players).length,4);
+assert.ok(Object.keys(BOT_STYLES).length>=3);
+assert.equal(Object.keys(assignBotStyles(heroIds.slice(1),()=>0.55)).length,3);
+assert.equal(possibleActions(state,cat).phase,'roll');
+state=command(state,cat,{type:'roll'});
+assert.ok(['route','event_choice','destination','roll'].includes(possibleActions(state,cat).phase));
+assert.ok(!('rngSeed' in publicObservation(state,cat)));
+assert.equal(pageForRoute([{index:1},{index:5}],5,1),1);
+assert.equal(rankedRoutes([[1,2],[1,3]],p=>p.at(-1))[0].end,3);
+let steps=0;const random=botRandom(987654);
+while(state.phase!=='finished'&&steps++<2000){const action=selectBotAction(publicObservation(state,cat),cat,'basic',random);assert.ok(action);state=command(state,cat,action);}
+assert.equal(state.phase,'finished');assert.ok(steps>30&&steps<2000);
+console.log('PASS: '+steps+' commands; day '+state.day);

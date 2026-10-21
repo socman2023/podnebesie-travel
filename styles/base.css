@@ -66,7 +66,7 @@
 /* v0.3.4: welcoming entry page, responsive and entirely based on the approved game map */
 .welcome-page{min-height:100dvh;display:grid;place-items:center;padding:clamp(10px,2.8vw,36px);background:radial-gradient(ellipse at top,#365466,#102a40 65%,#091c2b);color:#203844}
 .welcome-card{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);width:min(1120px,100%);min-height:570px;background:#fcfaf3;border:1px solid #a7b1a6;border-radius:22px;overflow:hidden;box-shadow:0 20px 65px #010e1bb5}
-.welcome-art{position:relative;min-height:570px;background:#154357}
+.welcome-art{position:relative;min-height:570px;background:#154357 url('../assets/map.webp') 48% 44% / cover no-repeat}
 .welcome-art-shade{position:absolute;inset:0;background:linear-gradient(180deg,#0e2a3b12,#0a283930 65%,#051f35b4)}
 .welcome-art-caption{position:absolute;left:24px;bottom:22px;font:700 17px Georgia,serif;color:#f9e6b5;text-shadow:0 2px 5px #000b}
 .welcome-copy{padding:clamp(24px,3.6vw,51px);display:flex;flex-direction:column;justify-content:center;gap:15px}
@@ -97,3 +97,4 @@
 .route-selected details span{display:block;margin-top:5px}.route-selected details small{display:block;margin-top:4px;color:#567269}
 @media(max-width:740px){.route-quick-list{grid-template-columns:repeat(4,minmax(0,1fr))}.quick-route{min-height:43px;font-size:12px}}
 @media(max-width:360px){.route-quick-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
