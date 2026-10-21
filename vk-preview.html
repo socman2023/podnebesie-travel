@@ -1,1 +1,52 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Проверка размеров VK — Путешествие по Поднебесью</title><style>*{box-sizing:border-box}body{margin:0;background:#132b3b;color:white;font-family:system-ui,sans-serif}header{padding:14px;display:flex;flex-wrap:wrap;align-items:center;gap:9px}h1{font-size:17px;margin:0 16px 0 0}button{background:#f4eee0;border:0;border-radius:7px;padding:9px;cursor:pointer}button[aria-pressed=true]{background:#8dd4e6}main{padding:10px;display:flex;justify-content:center}.device{width:390px;max-width:100%;height:780px;max-height:calc(100dvh - 105px);border:4px solid #607785;border-radius:16px;overflow:hidden;background:white}iframe{width:100%;height:100%;border:0}</style></head><body><header><h1>Проверка VK Mini Apps · v0.3.5</h1><button data-width="360" data-height="740">360 × 740</button><button data-width="390" data-height="780" aria-pressed="true">390 × 780</button><button data-width="768" data-height="820">768 × 820</button><button data-width="900" data-height="780">900 × 780</button><button data-width="1200" data-height="800">1200 × 800</button><span id="size" aria-live="polite">390 × 780</span></header><main><div class="device" id="device"><iframe src="./index.html" title="Игра Путешествие по Поднебесью"></iframe></div></main><script>document.querySelectorAll('button[data-width]').forEach(b=>b.onclick=()=>{const d=document.getElementById('device');d.style.width=b.dataset.width+'px';d.style.height=b.dataset.height+'px';document.getElementById('size').textContent=b.dataset.width+' × '+b.dataset.height;document.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)))})</script></body></html>
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VK WebView — проверка размеров | Путешествие по Поднебесью</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#12283a;color:#fff}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px}
+h1{font-size:17px;margin:0 12px 0 0}
+button{border:0;border-radius:8px;background:#ecede5;color:#183444;min-height:40px;padding:8px 12px;cursor:pointer}
+button[aria-pressed="true"]{background:#8ad6e6}
+#size,#diagnostics{font-size:13px;color:#e4eef1}
+main{padding:12px;display:flex;justify-content:flex-start;align-items:flex-start;overflow:auto;max-height:calc(100dvh - 112px);min-height:340px}
+.device{border:4px solid #6c8797;border-radius:13px;overflow:hidden;background:#fff;flex:none;width:390px;height:780px}
+iframe{display:block;width:100%;height:100%;border:0}
+.note{margin:0;padding:0 12px 10px;color:#bbd6df;font-size:12px}
+</style></head>
+<body>
+<header>
+<h1>Проверка VK Mini Apps · v0.3.5</h1>
+<button data-w="320" data-h="568">320 × 568</button>
+<button data-w="360" data-h="740">360 × 740</button>
+<button data-w="390" data-h="780" aria-pressed="true">390 × 780</button>
+<button data-w="430" data-h="932">430 × 932</button>
+<button data-w="768" data-h="820">768 × 820</button>
+<button data-w="900" data-h="780">900 × 780</button>
+<button data-w="1200" data-h="800">1200 × 800</button>
+<span id="size" aria-live="polite">390 × 780</span>
+<span id="diagnostics" aria-live="polite">Открой приложение для проверки геометрии</span>
+</header>
+<main><div id="device" class="device"><iframe id="game" src="./index.html" title="Путешествие по Поднебесью"></iframe></div></main>
+<p class="note">Стенд проверяет размеры окна и горизонтальное переполнение. Запуск игры, маршруты, ботов, события и справочник проверяй вручную. Публикация во ВКонтакте не требуется.</p>
+<script>
+const device=document.getElementById('device'),frame=document.getElementById('game');
+function inspect(){
+ try{
+  const doc=frame.contentDocument;
+  if(!doc||!doc.documentElement)return;
+  const root=doc.documentElement;
+  const client=root.clientWidth,scroll=root.scrollWidth;
+  document.getElementById('diagnostics').textContent=scroll>client+1?
+    '⚠ Горизонтальное переполнение: '+scroll+' / '+client+' px':
+    'Ширина страницы: '+scroll+' / '+client+' px';
+ }catch(_){document.getElementById('diagnostics').textContent='Геометрию проверь вручную'}
+}
+frame.addEventListener('load',inspect);
+document.querySelectorAll('button[data-w]').forEach(b=>b.addEventListener('click',()=>{
+ device.style.width=b.dataset.w+'px';device.style.height=b.dataset.h+'px';
+ document.getElementById('size').textContent=b.dataset.w+' × '+b.dataset.h;
+ document.querySelectorAll('button[data-w]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+ requestAnimationFrame(()=>requestAnimationFrame(inspect));
+}));
+</script></body></html>

@@ -1,34 +1,77 @@
-/* Supplemental VK webview layout for version 0.3.5 */
-html,body,#app{max-width:100%;min-width:0}
-body{overflow-x:hidden}
-.game-header{padding-top:max(10px,env(safe-area-inset-top,0px))}
-.event-overlay{padding-bottom:max(12px,env(safe-area-inset-bottom,0px))}
-.event-modal{max-height:calc(100dvh - 24px)}
-@media(max-width:1000px){
-.game-layout{grid-template-columns:minmax(0,1fr) minmax(290px,36%)}
-.sidebar{max-height:calc(100dvh - 66px)}
+/* VK Mini Apps WebView: overrides for the existing v0.3.5 game UI. */
+:root{
+  --vk-safe-top: env(safe-area-inset-top, 0px);
+  --vk-safe-right: env(safe-area-inset-right, 0px);
+  --vk-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --vk-safe-left: env(safe-area-inset-left, 0px);
 }
-@media(max-width:740px){
-.game-root{min-height:100dvh}
-.game-header{flex-wrap:wrap;gap:7px;padding-inline:12px}
-.game-title{font-size:16px}
-.header-status{gap:5px;font-size:11px}
-.game-layout{display:flex;flex-direction:column}
-.map-viewport{height:clamp(250px,42dvh,430px);min-height:250px;flex:none}
-.sidebar{overflow:visible;max-height:none;border-left:0;width:100%}
-.map-topbar{top:7px;left:7px;right:7px}
-.map-topbar .map-instr{max-width:70%;font-size:11px;padding:7px}
-.panel{padding:12px}
-.start-shell{padding:12px 12px max(24px,env(safe-area-inset-bottom,0px))}
-.start-shell .hero-banner{padding:16px}
-.start-shell .setup{padding:14px}
-.hero-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.event-modal{width:100%;max-height:calc(100dvh - 24px);padding:15px}
-.event-modal img{width:min(34vw,130px)}
-.route-end-list{max-height:220px}
-.route-variants{max-height:160px}
+html,body,#app{width:100%;min-width:0;max-width:100%}
+body{overflow-x:clip}
+button,select,input{touch-action:manipulation}
+.game-header{
+  padding-top:max(11px,var(--vk-safe-top));
+  padding-left:max(14px,var(--vk-safe-left));
+  padding-right:max(14px,var(--vk-safe-right));
 }
-@media(max-width:380px){
-.map-viewport{height:35dvh;min-height:225px}
-.event-modal img{width:100px}
+.game-layout,.map-side,.sidebar,.panel{min-width:0}
+.game-root{min-height:100vh;min-height:100dvh}
+.sidebar{max-height:calc(100vh - 66px);max-height:calc(100dvh - 66px)}
+.event-overlay,.guide-overlay{
+  padding-top:max(12px,var(--vk-safe-top));
+  padding-right:max(12px,var(--vk-safe-right));
+  padding-bottom:max(12px,var(--vk-safe-bottom));
+  padding-left:max(12px,var(--vk-safe-left));
+}
+.event-modal,.guide-modal{max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px)}
+.event-modal,.guide-body,.sidebar{overscroll-behavior:contain}
+@media(max-width:1023px) and (min-width:768px){
+  .game-layout{grid-template-columns:minmax(0,1fr) minmax(290px,38%)}
+  .game-header{flex-wrap:wrap;gap:8px}
+  .sidebar{max-height:calc(100dvh - 100px)}
+}
+@media(max-width:767px){
+  .game-header{flex-wrap:wrap;gap:8px;padding-block:10px}
+  .game-title{font-size:16px}
+  .game-title small{font-size:9px}
+  .header-status{width:100%;gap:6px;font-size:12px}
+  .header-status button{min-height:44px;padding:8px 10px}
+  .head-pill{padding:7px 9px}
+  .game-layout{display:flex;flex-direction:column;flex:1;min-height:0}
+  .map-side{flex:0 0 auto;width:100%}
+  .map-viewport{flex:0 0 auto;height:clamp(235px,39dvh,420px);min-height:235px}
+  .map-topbar{top:7px;left:7px;right:7px;gap:6px}
+  .map-topbar .map-instr{max-width:calc(100% - 88px);padding:7px 9px;font-size:11px;line-height:1.32}
+  .map-toolset button{min-width:44px;min-height:44px}
+  .sidebar{width:100%;max-height:none;overflow:visible;border-left:0;border-top:1px solid #bcc9cf}
+  .panel{padding:12px}
+  .player-strip{padding:9px;scrollbar-width:thin}
+  .start-shell{padding:12px 12px max(20px,var(--vk-safe-bottom))}
+  .start-shell .hero-banner{padding:16px}
+  .start-shell .setup{padding:14px}
+  .hero-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-pick{min-height:0}
+  .route-end-list{max-height:240px}
+  .route-variants{max-height:180px}
+  .route-end-list button,.route-variants button,.choice-list button{min-height:44px}
+  .event-modal{width:100%;max-height:calc(100dvh - 24px);padding:14px}
+  .guide-modal{width:100%;max-height:calc(100dvh - 24px)}
+  .guide-body{padding:12px}
+  .guide-head{padding:12px}
+  .guide-exit{min-width:44px;min-height:44px}
+  .guide-grid{grid-template-columns:minmax(0,1fr)}
+  .result-shell{padding:14px 12px max(32px,var(--vk-safe-bottom))}
+  .result-shell h1{font-size:25px}
+}
+@media(max-width:420px){
+  .map-viewport{height:clamp(225px,36dvh,340px);min-height:225px}
+  .event-modal .event-body{flex-direction:column}
+  .event-modal img{width:min(38vw,132px);max-height:190px}
+  .route-end-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .welcome-copy{padding:18px}
+  .welcome-copy h1{font-size:28px}
+  .welcome-art-caption{font-size:14px}
+}
+@media(max-height:570px) and (min-width:768px){
+  .sidebar{max-height:calc(100dvh - 88px)}
+  .map-viewport{min-height:300px}
 }
