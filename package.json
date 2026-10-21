@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tests/logic-smoke.mjs"
+    "test": "node tests/logic-smoke.mjs && node tests/vk-platform.mjs"
   }
 }
