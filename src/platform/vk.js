@@ -48,6 +48,26 @@ export async function initializeVKBridge({
   }
 }
 
+/**
+ * In a VK iframe the host may disable document scrolling.
+ * Make the application's own viewport scrollable before the game renders.
+ * Also supports embedded preview frames without VK launch parameters.
+ */
+export function enableEmbeddedScrolling(win, doc) {
+  if (!win || !doc) return false;
+  const embedded = win.self !== win.top || isVKLaunch(win.location?.search ?? '');
+  if (embedded) doc.documentElement?.classList.add('app-embedded');
+  return embedded;
+}
+
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  enableEmbeddedScrolling(window, document);
+  // Reset the contained viewport on transitions between full game screens.
+  document.addEventListener('click', event => {
+    const button = event.target.closest?.('button');
+    if (button?.matches('[data-enter-game], [data-show-intro], [data-start], [data-again], [data-new-setup]')) {
+      document.getElementById('app')?.scrollTo({ top: 0 });
+    }
+  }, { capture: true });
   void initializeVKBridge();
 }

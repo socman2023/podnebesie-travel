@@ -1,5 +1,15 @@
 import assert from 'node:assert/strict';
-import { isVKLaunch, initializeVKBridge, VK_BRIDGE_URL } from '../src/platform/vk.js';
+import { isVKLaunch, initializeVKBridge, enableEmbeddedScrolling, VK_BRIDGE_URL } from '../src/platform/vk.js';
+
+
+const classNames = [];
+const docEmbedded = { documentElement: { classList: { add: (name) => classNames.push(name) } } };
+const parent = {}, child = {};
+assert.equal(enableEmbeddedScrolling({ self: child, top: parent, location: { search: '' } }, docEmbedded), true);
+assert.deepEqual(classNames, ['app-embedded']);
+assert.equal(enableEmbeddedScrolling({ self: child, top: child, location: { search: '' } }, docEmbedded), false);
+assert.equal(enableEmbeddedScrolling({ self: child, top: child, location: { search: '?vk_app_id=54842341' } }, docEmbedded), true);
+assert.deepEqual(classNames, ['app-embedded', 'app-embedded']);
 
 assert.equal(isVKLaunch(''), false);
 assert.equal(isVKLaunch('?vk_platform=desktop_web'), false);
