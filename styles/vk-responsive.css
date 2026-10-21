@@ -103,38 +103,3 @@ html.app-embedded .start-shell {
     scrollbar-gutter: stable;
   }
 }
-
-
-/* Mobile map: maximize visible playfield and keep controls reachable. */
-@media (max-width: 767px) {
-  /* The descriptive panel overlaps the playfield in portrait orientation.
-     Rules and reward counts remain available in the game UI. */
-  .map-topbar .map-instr {
-    display: none;
-  }
-  .map-topbar {
-    justify-content: flex-end;
-  }
-  /* Leave enough viewport below the map to reveal the game controls. */
-  .map-viewport {
-    height: clamp(300px, 52dvh, 520px);
-    min-height: 300px;
-  }
-  /* A single row of map actions exposes more of the map than a tall stack. */
-  .map-toolset {
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 5px;
-  }
-  .map-toolset button {
-    min-width: 44px;
-    min-height: 44px;
-  }
-  .map-toolset .tool-long {
-    width: auto;
-    min-width: 70px;
-    padding-inline: 6px;
-    font-size: 12px;
-  }
-}
