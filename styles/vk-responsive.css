@@ -75,3 +75,31 @@ button,select,input{touch-action:manipulation}
   .sidebar{max-height:calc(100dvh - 88px)}
   .map-viewport{min-height:300px}
 }
+
+
+/* VK controls iframe height and may suppress scrolling of the outer document.
+   Keep the game scrollable *inside* its own viewport, also in preview iframes. */
+html.app-embedded,
+html.app-embedded body {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+html.app-embedded #app {
+  height: 100vh;
+  height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scroll-padding-bottom: 32px;
+}
+html.app-embedded .start-shell {
+  padding-bottom: max(40px, var(--vk-safe-bottom));
+}
+@media (min-width: 768px) {
+  html.app-embedded #app {
+    scrollbar-gutter: stable;
+  }
+}
