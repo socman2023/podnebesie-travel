@@ -3,7 +3,7 @@
  * The browser-only game remains fully functional without VK and never loads
  * the SDK unless the launch URL belongs to our specific VK application.
  */
-export const VK_APP_ID = '54842341';
+export const VK_APP_ID = '54848482';
 export const VK_BRIDGE_URL = 'https://unpkg.com/@vkontakte/vk-bridge@2.14.0/dist/browser.min.js';
 
 export function isVKLaunch(search = '') {
