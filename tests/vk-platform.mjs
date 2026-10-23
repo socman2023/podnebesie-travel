@@ -8,14 +8,15 @@ const parent = {}, child = {};
 assert.equal(enableEmbeddedScrolling({ self: child, top: parent, location: { search: '' } }, docEmbedded), true);
 assert.deepEqual(classNames, ['app-embedded']);
 assert.equal(enableEmbeddedScrolling({ self: child, top: child, location: { search: '' } }, docEmbedded), false);
-assert.equal(enableEmbeddedScrolling({ self: child, top: child, location: { search: '?vk_app_id=54842341' } }, docEmbedded), true);
+assert.equal(enableEmbeddedScrolling({ self: child, top: child, location: { search: '?vk_app_id=54848482' } }, docEmbedded), true);
 assert.deepEqual(classNames, ['app-embedded', 'app-embedded']);
 
 assert.equal(isVKLaunch(''), false);
 assert.equal(isVKLaunch('?vk_platform=desktop_web'), false);
 assert.equal(isVKLaunch('?vk_app_id=111&vk_platform=desktop_web'), false);
-assert.equal(isVKLaunch('?vk_app_id=54842341&vk_platform=desktop_web'), true);
-assert.equal(isVKLaunch('?vk_app_id=54842341&vk_platform=mobile_android'), true);
+assert.equal(isVKLaunch('?vk_app_id=54842341&vk_platform=mobile_android'), false);
+assert.equal(isVKLaunch('?vk_app_id=54848482&vk_platform=desktop_web'), true);
+assert.equal(isVKLaunch('?vk_app_id=54848482&vk_platform=mobile_android'), true);
 
 let requested = 0;
 const win = { location: { search: '' } };
@@ -25,12 +26,12 @@ assert.equal(requested, 0, 'Ordinary browser must not load VK SDK');
 
 const commands = [];
 assert.equal(await initializeVKBridge({
-  win, doc, search: '?vk_app_id=54842341',
+  win, doc, search: '?vk_app_id=54848482',
   load: async () => ({ send: async name => { commands.push(name); } }),
 }), 'vk-ready');
 assert.deepEqual(commands, ['VKWebAppInit']);
 
-const bridgeWindow = { location: { search: '?vk_app_id=54842341' } };
+const bridgeWindow = { location: { search: '?vk_app_id=54848482' } };
 const bridgeDoc = {
   createElement: () => ({}),
   head: { appendChild: script => {
@@ -46,7 +47,7 @@ const priorWarn = console.warn;
 console.warn = () => {};
 try {
   assert.equal(await initializeVKBridge({
-    win, doc, search: '?vk_app_id=54842341', load: async () => { throw new Error('offline'); },
+    win, doc, search: '?vk_app_id=54848482', load: async () => { throw new Error('offline'); },
   }), 'vk-error');
 } finally { console.warn = priorWarn; }
 console.log('VK integration smoke: OK');
